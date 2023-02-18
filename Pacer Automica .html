@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Assembly Code Grid</title>
+    <style>
+      /* Reset default styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* Page styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+      
+      .banner {
+        background-color: #00539c;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 16px;
+        text-align: center;
+      }
+      
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 16px;
+        background-color: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 32px;
+        margin-bottom: 32px;
+        position: relative;
+      }
+      
+      .dark-mode {
+        background-color: #222;
+        color: #fff;
+      }
+      
+      .button {
+        background-color: #00539c;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 16px;
+        cursor: pointer;
+        margin-right: 8px;
+      }
+      
+      .button:hover {
+        background-color: #003366;
+      }
+      
+      .grid {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+      
+      .grid td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+      
+      .error {
+        color: red;
+        margin-top: 16px;
+      }
+      
+      .picture-mode {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      
+      .picture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 200px);
+        margin: 16px 0;
+      }
+      
+      .picture img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      
+      .picture.light-mode {
+        background-color: #fff;
+      }
+      
+      .picture.dark-mode {
+        background-color: #222;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">Assembly Code Grid</div>
+    <div class="container">
+      <div>
+        <label for="file">Load File:</label>
+        <input type="file" id="file" onchange="loadFile()" accept=".txt">
+      </div>
+      <div>
+        <textarea id="input" rows="8" placeholder="Enter your assembly code here"></textarea>
+      </div>
+      <div>
+        <button class="button" onclick="createGrid()">Create Grid</button>
+        <button class="button" onclick="clearInput()">Clear Input</button>
+        <button class="button" onclick="toggleDarkMode()">Dark Mode</button>
+        <button class="button" onclick="toggleLightMode()">Light Mode</button>
+        <button class="button" onclick="togglePictureMode()">Picture Mode</button>
+      </div>
+      <div id="output"></div>
+    </div>
+    
+    <div class="picture light-mode" style="display:none;">
+      <img id="picture" src="https://static.wikia.nocookie.net/alvin/images/e/ef/That%27s_Funny.jpg/revision/latest/scale-to-width-down/576?cb=20130622034243">
+    </div>
+
+    <script>
+      function loadFile() {
+        const fileInput = document.getElementById('file');
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const textArea = document.getElementById('input');
+          textArea.value = e.target.result;
+        }
+        reader.readAsText(fileInput.files[0]);
+      }
+
+      function createGrid() {
+        const input = document.getElementById('input').value.trim();
+        const rows = input.split('\n');
+        let output = '<table class="grid">';
+        for (let i = 0; i < rows.length; i++) {
+          output += '<tr>';
+          const cols = rows[i].split(' ');
+          for (let j = 0; j < cols.length; j++) {
+            output += '<td>' + cols[j] + '</td>';
+          }
+          output += '</tr>';
+        }
+        output += '</table>';
+        document.getElementById('output').innerHTML = output;
+      }
+
+      function clearInput() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').innerHTML = '';
+      }
+
+      function toggleDarkMode() {
+        const container = document.querySelector('.container');
+        const picture = document.querySelector('.picture');
+        container.classList.toggle('dark-mode');
+        picture.classList.toggle('dark-mode');
+      }
+
+      function toggleLightMode() {
+        const container = document.querySelector('.container');
+        const picture = document.querySelector('.picture');
+        container.classList.remove('dark-mode');
+        picture.classList.remove('dark-mode');
+      }
+
+      function togglePictureMode() {
+        const container = document.querySelector('.container');
+        const picture = document.querySelector('.picture');
+        container.style.display = 'none';
+        picture.style.display = 'flex';
+      }
+    </script>
+  </body>
+</html>
+

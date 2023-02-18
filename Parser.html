@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assembly Code Grid</title>
+    <style>
+      /* Default light mode styles */
+      
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        color: #333;
+      }
+      
+      h1 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      
+      .banner {
+        background-color: #2196F3;
+        color: white;
+        padding: 10px;
+      }
+      
+      .container {
+        margin: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        background-color: white;
+      }
+      
+      .button {
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        background-color: #0d8dc4;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      
+      .button:hover {
+        background-color: #17d388;
+      }
+      
+      #input {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      table {
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+      
+      td, th {
+        border: 1px solid black;
+        padding: 5px;
+        font-family: monospace;
+      }
+      
+      #grid {
+        margin-top: 20px;
+      }
+      
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
+      
+      /* Dark mode styles */
+      
+      body.dark-mode {
+        background-color: #333;
+        color: white;
+      }
+      
+      .banner.dark-mode {
+        background-color: #0a84ff;
+      }
+      
+      .container.dark-mode {
+        background-color: #444;
+        color: white;
+      }
+      
+      .button.dark-mode {
+        background-color: #222;
+      }
+      
+      td.dark-mode {
+        border: 1px solid white;
+      }
+      
+      th.dark-mode {
+        border: 1px solid white;
+        background-color: #333;
+        color: white;
+      }
+      
+      /* Picture option styles */
+      
+      .container.picture {
+        background-image: url("https://static.wikia.nocookie.net/alvin/images/e/ef/That%27s_Funny.jpg/revision/latest/scale-to-width-down/576?cb=20130622034243");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      
+      /* Responsive styles */
+      
+      @media (max-width: 768px) {
+        .container {
+          margin: 10px;
+        }
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <h1>Assembly Code Grid</h1>
+    </div>
+    <div class="container">
+      <h2>Enter or upload your assembly code and see it displayed as a grid:</h2>
+      <form>
+        <input type="file" id="file" style="display:none" onchange="loadFile()">
+      </form>
+      <textarea id="input" rows="10" cols="50"></textarea>
+      <div>
+        <button class="button" onclick="createGrid()">Create Grid</button>
+        <button class="button" onclick="clearInput()">Clear</button>
+        <button class="button" onclick="document.getElementById('file').click()">Load File</button>
+        <button class="button" onclick="toggleLightMode()">Light Mode</button>
+        <button class="button" onclick="toggleDarkMode()">Dark Mode</button>
+        <button class="button" onclick="togglePictureMode()">Picture Mode</button>
+      </div>
+      <div id="grid"></div>
+      <div id="error" class="error"></div>
+    </div>
+    <script>
+      function createGrid() {
+        const input = document.getElementById("input").value;
+        const lines = input.split("\n").map(line => line.trim()).filter(line => line !== "");
+        const maxColumns = Math.max(...lines.map(line => line.split(/\s+/).length));
+        
+        if (maxColumns === 0) {
+          document.getElementById("error").innerHTML = "Please enter or upload some assembly code!";
+          document.getElementById("grid").innerHTML = "";
+          return;
+        }
+        
+        const table = document.createElement("table");
+        table.classList.add("grid");
+        
+        for (let i = 0; i < lines.length; i++) {
+          const row = table.insertRow();
+          const columns = lines[i].split(/\s+/);
+          
+          for (let j = 0; j < maxColumns; j++) {
+            const cell = row.insertCell();
+            cell.innerHTML = columns[j] || "";
+          }
+        }
+        
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("grid").innerHTML = "";
+        document.getElementById("grid").appendChild(table);
+      }
+
+      function clearInput() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').innerHTML = '';
+      }
+      
+      function toggleDarkMode() {
+        const body = document.getElementsByTagName("body")[0];
+        body.classList.toggle("dark-mode");
+        const container = document.querySelector('.container');
+        const picture = document.querySelector('.picture');
+        container.classList.toggle('dark-mode');
+        picture.classList.toggle('dark-mode');
+      }
+
+      function toggleLightMode() {
+        const container = document.querySelector('.container');
+        const picture = document.querySelector('.picture');
+        container.classList.remove('dark-mode');
+        picture.classList.remove('dark-mode');
+      }
+      
+      function togglePictureMode() {
+        const container = document.getElementsByClassName("container")[0];
+        container.classList.toggle("picture");
+      }
+      
+      function loadFile() {
+        const file = document.getElementById("file").files[0];
+        const reader = new FileReader();
+        reader.onload = function() {
+          document.getElementById("input").value = reader.result;
+        }
+        reader.readAsText(file);
+      }
+
+      
+
+    </script>
+  </body>
+</html>
