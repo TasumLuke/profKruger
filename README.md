@@ -1,4 +1,4 @@
-This is a git repository to work with Assembly Code. The first few files are for error handling or parsing the Assembly code into a grid or table.
+This is a git repository to work with Assembly Code. The first few files namely Operand Error Handling and Parcer are for error handling or parsing the Assembly code into a grid or table.
 
 The Server Side Test Folder includes the code for programs for an interactive document where students can test codes in assembly, and it compiles them using NASM. 
 This is explained below:
