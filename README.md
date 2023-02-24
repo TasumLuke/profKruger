@@ -11,6 +11,7 @@ The Project utilizes Server Side Programming
 
 ## Requirements
 
+- Install formidable package
 To use this project, you will need the following software installed on your computer:
 
 - Node.js (version 12 or higher)
