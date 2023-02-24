@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Assembly Code Tester</title>
+</head>
+<body>
+  <textarea id="code"></textarea>
+  <button onclick="compile()">Compile</button>
+
+  <script>
+    function compile() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/compile');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+      const code = encodeURIComponent(document.getElementById('code').value);
+      const data = `code=${code}`;
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            // Save the compiled binary file to disk
+            const blob = new Blob([xhr.response], {type: 'application/octet-stream'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'output';
+            link.click();
+            URL.revokeObjectURL(url);
+          } else {
+            console.error(xhr.statusText);
+          }
+        }
+      };
+
+      xhr.send(data);
+    }
+  </script>
+</body>
+</html>
