@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <h1>Admin Page</h1>
+    <form id="code-form">
+      <label for="code-textarea">Enter assembly code:</label>
+      <textarea id="code-textarea" name="code"></textarea>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

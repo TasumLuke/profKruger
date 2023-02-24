@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assembly Code Viewer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <h1>Assembly Code Viewer</h1>
+    <table id="code-table">
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Code</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in code_data %}
+          <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
