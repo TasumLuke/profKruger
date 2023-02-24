@@ -11,13 +11,15 @@ The Project utilizes Server Side Programming
 
 ## Requirements
 
-- Install formidable package
+
 To use this project, you will need the following software installed on your computer:
 
 - Node.js (version 12 or higher)
 - NASM (Netwide Assembler)
 - ld (the GNU linker)
 ^Install the above to test out in your local server/pc.
+
+- Advisable to Install the formidable package
 
 ## Installation
 
