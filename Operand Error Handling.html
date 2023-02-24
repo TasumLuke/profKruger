@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assembly Code Parser</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		td {
+			border: 1px solid black;
+			padding: 5px;
+			font-family: monospace;
+			text-align: center;
+		}
+
+		.addr {
+			background-color: #ccffcc;
+		}
+
+		.opcode {
+			background-color: #ffffcc;
+		}
+
+		.comment {
+			background-color: #cccccc;
+		}
+
+		.error {
+			background-color: #ffcccc;
+		}
+	</style>
+</head>
+<body>
+	<h1>Assembly Code Parser</h1>
+	<p>Enter your assembly code:</p>
+	<textarea id="asm" rows="10" cols="80"></textarea>
+	<button onclick="parse()">Parse</button>
+	<div id="output"></div>
+
+	<script>
+        
+		function parse() {
+			// Get the input assembly code
+			var input = document.getElementById("asm").value.trim();
+
+			// Split the input code into lines
+			var lines = input.split("\n");
+
+			// Create the table header
+			var table = "<table><tr><th>Address</th><th>Opcode</th><th>Comment</th></tr>";
+
+			// Initialize the address counter
+			var addr = 0;
+
+			// Loop through each line of the code
+			for (var i = 0; i < lines.length; i++) {
+				// Split the line into tokens
+				var tokens = lines[i].split(/\s+/);
+
+				// Check if the line starts with a comment delimiter
+				if (tokens[0].startsWith("@") || tokens[0].startsWith(";") || tokens[0].startsWith("#")) {
+					// Ignore the comment line
+					continue;
+				}
+
+				// Check if the line has at least one token
+				if (tokens.length < 1) {
+					// Add an error row to the table
+					table += "<tr><td colspan='3' class='error'>Error: Empty line</td></tr>";
+					continue;
+				}
+
+				// Check if the first token is a valid opcode
+				var opcode = tokens[0].toUpperCase();
+				if (!isValidOpcode(opcode)) {
+					// Add an error row to the table
+					table += "<tr><td colspan='3' class='error'>Error: Invalid opcode '" + opcode + "'</td></tr>";
+					continue;
+				}
+
+				// Create a new row in the table
+				table += "<tr>";
+
+				// Add the address column
+				table += "<td class='addr'>" + addr.toString(16).toUpperCase().padStart(4, "0") + "</td>";
+
+				// Add the opcode column
+				table += "<td class='opcode'>" + opcode + "</td>";
+
+				// Add the comment column
+				var comment = tokens.slice(1).join(" ");
+				table += "<td class='comment'>" + comment + "</td>";
+
+				// Increment the address counter
+				addr += 1;
+
+				// Close the row
+				table += "</tr>";
+			}
+
+			// Close the table
+			table += "</table>";
+
+			// Display the parsed code in the output div
+			document.getElementById("output").innerHTML = table;
+		}
+
+		function isValidOpcode(opcode) {
+        // List of valid opcodes
+        var opcodes = [
+            "MOV",
+            "ADD",
+            "SUB",
+            "CMP",
+            "JMP",
+            "JE",
+            "JNE",
+            "JG",
+            "JGE",
+            "JL",
+            "JLE",
+            "INC",
+            "DEC",
+            "AND",
+            "OR",
+            "XOR",
+            "NOT",
+            "SHL",
+            "SHR",
+            "PUSH",
+            "POP",
+            "CALL",
+            "RET",
+            "NOP"
+        ];
+
+        // Check if the opcode is in the list of valid opcodes
+        return opcodes.includes(opcode);
+        }
+
+                
+    </script>
+</body>
