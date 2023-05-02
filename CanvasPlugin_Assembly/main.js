@@ -16,9 +16,21 @@ function formatCodeBlocks() {
 
 // Format a code block and highlight any errors
 function formatCode(code) {
-  // TODO: Use an assembler to check for syntax errors
-  // and highlight them in the formatted code
-  return code;
+  // Use GAS to check for syntax errors
+  const assembler = new window.asm();
+  const result = assembler.compile(code);
+  
+  // Format the code with syntax highlighting
+  let formattedCode = '';
+  for (const line of result.asm.split('\n')) {
+    if (line.includes('error:')) {
+      formattedCode += `<span class="error">${line}</span>\n`;
+    } else {
+      formattedCode += `${line}\n`;
+    }
+  }
+  
+  return formattedCode.trim();
 }
 
 // Run the formatting function when the page loads
